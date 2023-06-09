@@ -20,29 +20,28 @@ public Plugin myinfo =
 + '+' - добавить
 + '-' - вычесть
 @param amount количество черепов
+@return true при успешном изменении, иначе false
 */
 bool ChangeSkulls(const int userid, const char type, const int amount)
 {
+	bool success;
 	switch (type)
 	{
 		case '=':
 		{
-			if (WCS_SetSkulls(userid, amount))
-			{
-				PrintToChat(userid, "[Skulls] Администратор установил вам %d череп(а/ов)", amount);
-			}
-			else
-			{
-				return false;
-			}
+			success = WCS_SetSkulls(userid, amount);
 		}
 		case '+':
-		{}
+		{
+			success = WCS_SetSkulls(userid, WCS_GetSkulls(userid) + amount);
+		}
 		case '-':
-		{}
+		{
+			success = WCS_SetSkulls(userid, WCS_GetSkulls(userid) - amount);
+		}
 	}
 
-	return true;
+	return success;
 }
 
 public void OnPluginStart()
